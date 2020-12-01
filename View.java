@@ -29,15 +29,38 @@ public class View extends JPanel implements Observer
 
 
 		//Create 26 buttons for letters that the user can use to guess
+		JButton letter;
+		JPanel buttons = new JPanel(new GridLayout(3, 0));
+		for(char c = 'A'; c <= 'Z'; c++)
+		{
+			letter = new JButton(c + "");
+			letter.setName(c + "");
+			letter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e)
+				{
+					JButton j = (JButton)e.getSource();
+					j.setEnabled(false);
+					model.checkGuess(j.getName());	
+				}
+			});
+			buttons.add(letter);
+		}
+		this.add(buttons);
 	}
 
-	public void paintComponent(Graphics g)
-	{
-		Graphics2D g2 = (Graphics2D)g;
-	}
-
+	//Update the JTextAreas if there was progress on the word
 	public void update (Observable o, Object arg)
 	{
-		repaint();
+		for(int i = 0; i < model.getWord().length(); i++)
+		{
+			if(model.getInProgress().charAt(i) != '_')
+			{
+				textAreas.get(i).setText(model.getInProgress().charAt(i) + "");
+			}
+		}
+	}
+	public void drawHangman()
+	{
+
 	}
 }
