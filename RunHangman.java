@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class RunHangman {
 	public static void main(String[]args) {
-		JFrame frame = new JFrame();
+		JFrame frame = new JFrame("Let's Play Hangman");
 		JPanel mainPage = new JPanel();
 		//this.setLayout(new BorderLayout());
 
@@ -14,11 +14,13 @@ public class RunHangman {
 
 			public void actionPerformed(ActionEvent e) {
 				View v = new View();
+				HangmanGUI h = new HangmanGUI();
 				frame.getContentPane().remove(mainPage);
-				frame.setContentPane(v);
+				frame.setContentPane(h);
 				frame.revalidate();
 				frame.pack();
 				frame.setSize(900, 500);
+				frame.setResizable(false);
 			}
 		});
 

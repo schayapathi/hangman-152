@@ -40,7 +40,7 @@ public class View extends JPanel implements Observer
 				{
 					JButton j = (JButton)e.getSource();
 					j.setEnabled(false);
-					model.checkGuess(j.getName());	
+					model.checkGuess(j.getName());
 				}
 			});
 			buttons.add(letter);

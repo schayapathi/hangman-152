@@ -11,7 +11,7 @@ public class Model extends Observable
 
 	public Model (String word)
 	{
-		this.word = word;
+		this.word = word.toUpperCase();
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < word.length(); i++)
 		{
@@ -55,5 +55,13 @@ public class Model extends Observable
 		if(count == 0) {
 			//drawHangman();
 		}
+	}
+	public boolean wordIsComplete(String guess) {
+		System.out.println("checking: " + guess + " and " + word);
+		guess = guess.toUpperCase();
+		if(guess.equals(word))
+			return true;
+		else 
+			return false;
 	}
 }
