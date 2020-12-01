@@ -13,7 +13,9 @@ public class View extends JPanel implements Observer
 	private ArrayList<JTextArea> textAreas;
 
 	public View() {
-		model = new Model("Paradigm");
+		String word = WordPicker.chooseWord();
+		model = new Model(word);
+		System.out.println(word);
 		textAreas = new ArrayList<JTextArea>();
 		model.addObserver(this);
 
@@ -34,7 +36,6 @@ public class View extends JPanel implements Observer
 		Graphics2D g2 = (Graphics2D)g;
 	}
 
-	@Override
 	public void update (Observable o, Object arg)
 	{
 		repaint();
