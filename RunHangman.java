@@ -1,14 +1,27 @@
+package hangman;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class RunHangman {
-	public static void main(String[]args) {
+	public static void main(String[]args) throws IOException {
 		JFrame frame = new JFrame("Let's Play Hangman!");
-		JPanel mainPage = new JPanel();
-		frame.setLayout(new BorderLayout(3, 0));
-
+		JPanel mainPage = new JPanel();		
+		mainPage.setLayout(new BorderLayout());
+		
+		BufferedImage image;
+		image = ImageIO.read(new File("hangman.jpg"));
+		JLabel imageLabel = new JLabel(new ImageIcon(image));
+		
+		JPanel welcomPanel = new JPanel();	
+		JLabel welcome = new JLabel("Welcome to Hangman!");
+		welcome.setFont(new Font("Serif", Font.BOLD, 40));
+		welcomPanel.add(welcome);
+		
 		JButton start = new JButton("Start Game");
 		start.addActionListener(new ActionListener() {
 
@@ -30,11 +43,16 @@ public class RunHangman {
 			}
 		});
 
-		JPanel bottom = new JPanel(new GridLayout(3, 4, 1, 1));
+		
+		JPanel bottom = new JPanel();
 		bottom.add(start);
 		bottom.setVisible(true);
 		bottom.setPreferredSize(new Dimension(300, 100));
+		
+		mainPage.add(welcomPanel, BorderLayout.NORTH);
+		mainPage.add(imageLabel, BorderLayout.CENTER);
 		mainPage.add(bottom, BorderLayout.SOUTH);
+		
 		frame.add(mainPage);
 		//mainPage.setLayout(new BoxLayout(mainPage, BoxLayout.Y_AXIS));
 
@@ -42,10 +60,5 @@ public class RunHangman {
 		frame.setVisible(true);
 		frame.setSize(900,500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	public void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D)g;
-		g2.setFont(new Font("Serif", Font.PLAIN, 20));
-		g2.drawString("Welcome to Hangman!", 10, 10);
 	}
 }
