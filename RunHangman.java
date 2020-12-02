@@ -1,4 +1,4 @@
-package hangman;
+//package hangman;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,12 +12,14 @@ public class RunHangman {
 		JFrame frame = new JFrame("Let's Play Hangman!");
 		JPanel mainPage = new JPanel();		
 		mainPage.setLayout(new BorderLayout());
+		mainPage.setBackground(new Color(250, 230, 180));
 		
 		BufferedImage image;
 		image = ImageIO.read(new File("hangman.jpg"));
 		JLabel imageLabel = new JLabel(new ImageIcon(image));
 		
 		JPanel welcomPanel = new JPanel();	
+		welcomPanel.setBackground(new Color(250, 230, 180));
 		JLabel welcome = new JLabel("Welcome to Hangman!");
 		welcome.setFont(new Font("Serif", Font.BOLD, 40));
 		welcomPanel.add(welcome);
@@ -45,6 +47,7 @@ public class RunHangman {
 
 		
 		JPanel bottom = new JPanel();
+		bottom.setBackground(new Color(250, 230, 180));
 		bottom.add(start);
 		bottom.setVisible(true);
 		bottom.setPreferredSize(new Dimension(300, 100));
