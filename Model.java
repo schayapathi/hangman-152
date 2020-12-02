@@ -8,6 +8,7 @@ public class Model extends Observable
 {
 	private String word;
 	private String inProgress;
+	public int guesses;
 
 	public Model (String word)
 	{
@@ -18,6 +19,7 @@ public class Model extends Observable
 			sb.append("_");
 		}
 		this.inProgress = sb.toString();
+		guesses = 6;
 	}
 
 	public int getLength()
@@ -34,6 +36,12 @@ public class Model extends Observable
 	{
 		return word;
 	}
+	public void incorrectGuesses()
+	{
+		guesses--;
+		setChanged();
+		notifyObservers();
+	}
 
 	//Check whether letters can be revealed based on the player's guess
 	public void checkGuess(String s)
@@ -49,12 +57,12 @@ public class Model extends Observable
 				System.out.println("in progress: " + inProgress);
 			}
 		}
-			setChanged();
-			notifyObservers();
 		System.out.println("matches: " + count);
 		if(count == 0) {
-			//drawHangman();
+			incorrectGuesses();
 		}
+		setChanged();
+		notifyObservers();
 	}
 	public boolean wordIsComplete(String guess) {
 		System.out.println("checking: " + guess + " and " + word);

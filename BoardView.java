@@ -5,17 +5,16 @@ import java.util.ArrayList;
 import java.util.Observer;
 import java.util.Observable;
 
-public class HangmanGUI extends JPanel implements Observer {
+public class BoardView extends JPanel implements Observer {
 	private Model model;
 
 	private HangmanDisplay display;
 	private ArrayList<JTextArea> textAreas;
-	private JButton nextButton;
+	private ArrayList<JButton> buttons;
 	private JButton newGameButton;
 	
 	private  String message; 
 	//private String word;
-	private String guesses; 
 	private int incorrectGuesses;
 	private boolean gameOver;
 	
@@ -38,10 +37,13 @@ public class HangmanGUI extends JPanel implements Observer {
 	private class HangmanDisplay extends JPanel {
 		HangmanDisplay() {
 			setSize(new Dimension(620,420));
-			setBackground( new Color(250, 230, 180) );
+			setBackground( new Color(250, 230, 180));
 			setFont( new Font("Monospaced", Font.BOLD, 20));
+			setLayout(new BorderLayout(3,3));
+			JPanel btm = new JPanel();
+			btm.setBackground(new Color(250, 230, 180));
 			JTextArea input = new JTextArea(1, 10);
-			add(input);
+			btm.add(input);
 			JButton guess = new JButton("Guess Word");
 			guess.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -50,27 +52,30 @@ public class HangmanGUI extends JPanel implements Observer {
 						message = "You Win!";
 						repaint();
 					}
+					else {
+						message = "Try Again";
+						repaint();
+					}
 				}
 			});
-			add(guess);
+			btm.add(guess);
+			add(btm, BorderLayout.EAST);
 		}
+		//PaintComponent specific to display panel at the top
 		protected void paintComponent(Graphics x) {
 			super.paintComponent(x);
-			System.out.println("in paint component");
 			((Graphics2D)x).setStroke(new BasicStroke(3));
 			if (message != null) {
 				x.setColor(Color.BLUE);
 				x.drawString(message, 20, 30);
 			}
-			System.out.println("drew message");
-			
 		}
 	}
 	
 	//Create bottom panel to hold game controller buttons, grid panel to hold
 	//textareas and jbuttons.
-	public HangmanGUI() {
-		model = new Model(WordPicker.chooseWord());
+	public BoardView(Model m) {
+		model = m;
 		System.out.println(model.getWord());
 		textAreas = new ArrayList<JTextArea>();
 		model.addObserver(this);		
@@ -78,12 +83,8 @@ public class HangmanGUI extends JPanel implements Observer {
 		Buttons buttonActivate = new Buttons();
 		display = new HangmanDisplay();
 		JPanel bottom = new JPanel();
-		
+		bottom.setBackground(new Color(250, 230, 180));
 		setLayout(new BorderLayout(5,5));  
-		
-		nextButton = new JButton("Next word");
-		nextButton.addActionListener(buttonActivate);
-		bottom.add(nextButton);
 		
 		newGameButton = new JButton("New Game");
 		newGameButton.addActionListener(buttonActivate);
@@ -109,6 +110,7 @@ public class HangmanGUI extends JPanel implements Observer {
 		//Create 26 buttons for each letter available for user guesses
 		JButton letter;
 		JPanel buttons = new JPanel(new GridLayout(3, 0));
+		buttons.setBackground(new Color(250, 230, 180));
 
 		for(char c = 'A'; c <= 'Z'; c++)
 		{
@@ -125,10 +127,7 @@ public class HangmanGUI extends JPanel implements Observer {
 					if(model.wordIsComplete(model.getInProgress())) {
 						System.out.println("word is complete");
 						gameOver = true;
-						display.repaint();
 					}
-					else
-						drawHangman();	
 				}
 			});
 			buttons.add(letter);
@@ -146,14 +145,20 @@ public class HangmanGUI extends JPanel implements Observer {
 	}
 
 	//Start game is called when the game first starts and whenever user clicks New Game
-	private void startGame() {
+	public void startGame() {
 		gameOver = false;
-		guesses = "";
 		incorrectGuesses = 0;
-		nextButton.setEnabled(false);
-		
+		// for(JButton jb : buttons)
+		// {
+		// 	jb.setEnabled(true);
+		// }		
+		// for(JTextArea ta : textAreas)
+		// {
+		// 	ta.setText("");
+		// }
 		newGameButton.setEnabled(true);
 		message = "This word has " + model.getWord().length() + " letters. Can you guess the word?";
+		display.repaint();
 	}
 	
 
@@ -168,10 +173,4 @@ public class HangmanGUI extends JPanel implements Observer {
 			}
 		}
 	}
-
-	public void drawHangman()
-	{
-
-	}
-
 }
